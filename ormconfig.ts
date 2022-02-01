@@ -6,7 +6,7 @@ const config: MysqlConnectionOptions = {
   port: Number(process.env.DB_PORT) || 3306,
   username: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || 'root',
-  database: process.env.DB_DATABASE || 'api_nest',
+  database: process.env.DB_DATABASE || 'api_nestjs',
   entities: ['dist/src/**/entities/*.entity.js'],
   synchronize: false,
   migrations: ['dist/src/database/migrations/*.js'],
