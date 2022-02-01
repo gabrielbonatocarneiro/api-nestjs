@@ -9,6 +9,8 @@ import {
   Put,
   Request,
   UseGuards,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -22,7 +24,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/login/configs/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/auth/configs/jwt-auth.guard';
 
 @ApiTags('User')
 @Controller('api/user')
@@ -44,8 +46,16 @@ export class UserController {
   @ApiCreatedResponse({ type: UserDto })
   @ApiBadRequestResponse()
   @ApiBody({ type: CreateUserDto })
-  create(@Body() body: CreateUserDto): Promise<UserDto> {
-    return this.userService.create(body);
+  async create(@Body() body: CreateUserDto, @Res() res: any): Promise<UserDto> {
+    try {
+      const user = await this.userService.create(body);
+
+      return user;
+    } catch (e) {
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        message: `${e}`,
+      });
+    }
   }
 
   @Put()

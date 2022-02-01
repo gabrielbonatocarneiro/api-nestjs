@@ -14,12 +14,8 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   email: string;
 
   @ApiProperty({ required: false })
-  @MinLength(4)
-  @MaxLength(20)
   password: string;
 
   @ApiProperty({ required: false })
-  @MinLength(4)
-  @MaxLength(20)
   new_password: string;
 }

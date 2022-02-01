@@ -15,21 +15,21 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
-import { LoginService } from './login.service';
+import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './configs/local-auth.guard';
 
-@ApiTags('Login')
-@Controller('login')
-export class LoginController {
-  constructor(private loginService: LoginService) {}
+@ApiTags('Auth')
+@Controller('auth')
+export class AuthController {
+  constructor(private authService: AuthService) {}
 
-  @Post()
+  @Post('login')
   @UseGuards(LocalAuthGuard)
   @ApiOkResponse({ type: UserLogged, isArray: false })
   @ApiUnauthorizedResponse({ type: UserNotAuthorized })
   @ApiBody({ type: LoginDto })
   async login(@Request() req: any, @Res() res: any) {
-    const login = await this.loginService.login(req.user);
+    const login = await this.authService.login(req.user);
 
     return res.status(HttpStatus.OK).json(login);
   }

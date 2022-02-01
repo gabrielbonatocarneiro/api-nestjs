@@ -70,7 +70,7 @@ export class UserService {
       name: name || updateUserDto.name,
       email: email || updateUserDto.email,
       password: hashedPassword,
-      updated_at: await new MomentJS().now(),
+      updated_at: new MomentJS().now(),
     });
 
     delete userUpdated.password;

@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import { jwtConstants } from './login/configs/constants';
+import { jwtConstants } from './auth/configs/constants';
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 
