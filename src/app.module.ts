@@ -5,15 +5,27 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import config from 'ormconfig';
 import { CorsMiddleware } from '@nest-middlewares/cors';
 import { DocumentModule } from './document/document.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(config),
     ConfigModule.forRoot({
       envFilePath: '.env',
+    }),
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      entities: ['dist/src/**/entities/*.entity.js'],
+      synchronize: false,
+      migrations: ['dist/src/database/migrations/*.js'],
+      cli: {
+        migrationsDir: 'src/database/migrations',
+      },
     }),
     UserModule,
     AuthModule,
