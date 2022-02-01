@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import config from 'ormconfig';
 import { CorsMiddleware } from '@nest-middlewares/cors';
+import { DocumentModule } from './document/document.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CorsMiddleware } from '@nest-middlewares/cors';
     }),
     UserModule,
     AuthModule,
+    DocumentModule,
   ],
 })
 export class AppModule {
