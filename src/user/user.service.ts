@@ -7,14 +7,23 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';
 import { User } from './entities/user.entity';
+import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRedis() private readonly redis: Redis,
   ) {}
 
   async findOne(userId: number): Promise<UserDto> {
+    let user = await this.redis.get(`user_id_${userId}`);
+
+    if (user) {
+      user = JSON.parse(user);
+      return user;
+    }
+
     return await this.userRepository.findOne(userId, {
       select: ['user_id', 'name', 'email', 'created_at', 'updated_at'],
       relations: ['documents'],

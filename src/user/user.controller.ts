@@ -44,24 +44,31 @@ export class UserController {
 
     const documents: any[] = [];
 
-    user.documents.forEach((document) => {
-      documents.push({
-        ...document,
-        document_id: Number(document.document_id),
-        user_id: Number(document.user_id),
-        international: !!document.international,
-        created_at: moment(document.created_at).format('YYYY-MM-DD HH:mm:ss'),
-        updated_at: moment(document.updated_at).format('YYYY-MM-DD HH:mm:ss'),
+    if (user.documents) {
+      user.documents.forEach((document) => {
+        documents.push({
+          ...document,
+          document_id: Number(document.document_id),
+          user_id: Number(document.user_id),
+          international: !!document.international,
+          created_at: moment(document.created_at).format('YYYY-MM-DD HH:mm:ss'),
+          updated_at: moment(document.updated_at).format('YYYY-MM-DD HH:mm:ss'),
+        });
       });
-    });
+    }
 
-    return res.status(HttpStatus.OK).json({
+    const obj = {
       ...user,
       user_id: Number(user.user_id),
       created_at: moment(user.created_at).format('YYYY-MM-DD HH:mm:ss'),
       updated_at: moment(user.updated_at).format('YYYY-MM-DD HH:mm:ss'),
-      documents,
-    });
+    };
+
+    if (documents.length) {
+      obj.documents = documents;
+    }
+
+    return res.status(HttpStatus.OK).json(obj);
   }
 
   @Post()

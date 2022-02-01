@@ -1,3 +1,4 @@
+import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
 import { UserDto } from '../user/dto/user.dto';
 import { UserService } from '../user/user.service';
 import { Injectable } from '@nestjs/common';
@@ -10,6 +11,7 @@ export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
+    @InjectRedis() private readonly redis: Redis,
   ) {}
 
   async userValidate(email: string, password: string) {
@@ -18,13 +20,17 @@ export class AuthService {
     if (user && (await bcrypt.compare(password, user.password))) {
       const { user_id, name, email, created_at, updated_at } = user;
 
-      return {
+      const userDto = {
         user_id,
         name,
         email,
         created_at: moment(created_at).format('YYYY-MM-DD HH:mm:ss'),
         updated_at: moment(updated_at).format('YYYY-MM-DD HH:mm:ss'),
       };
+
+      await this.redis.set(`user_id_${user_id}`, JSON.stringify(userDto));
+
+      return userDto;
     }
 
     return null;

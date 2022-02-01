@@ -1,3 +1,4 @@
+import { RedisModule } from '@nestjs-modules/ioredis';
 import { AuthModule } from './auth/auth.module';
 import { Middleware } from './middleware';
 import { UserModule } from './user/user.module';
@@ -26,6 +27,11 @@ import { DocumentModule } from './document/document.module';
       migrations: ['database/migrations/*.js'],
       cli: {
         migrationsDir: 'database/migrations',
+      },
+    }),
+    RedisModule.forRoot({
+      config: {
+        url: `redis://:@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
       },
     }),
     UserModule,

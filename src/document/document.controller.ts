@@ -54,10 +54,10 @@ export class DocumentController {
 
     const result = await this.documentService.findAll(userId, page, perPage);
 
-    const documents: any[] = [];
+    const data: any[] = [];
 
     result.data.forEach((document) => {
-      documents.push({
+      data.push({
         ...document,
         document_id: Number(document.document_id),
         user_id: Number(document.user_id),
@@ -69,7 +69,7 @@ export class DocumentController {
 
     return res.status(HttpStatus.OK).json({
       ...result,
-      documents,
+      data,
     });
   }
 
