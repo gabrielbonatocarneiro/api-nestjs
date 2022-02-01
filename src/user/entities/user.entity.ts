@@ -1,9 +1,11 @@
+import { Document } from 'src/document/entities/document.entity';
 import { MomentJS } from 'src/helpers/MomentJS';
 import {
   BeforeInsert,
   BeforeUpdate,
   Column,
   Entity,
+  OneToMany,
   PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -47,6 +49,9 @@ export class User {
     default: null,
   })
   updated_at: string;
+
+  @OneToMany(() => Document, (document) => document.user)
+  documents: Document[];
 
   @BeforeInsert()
   createUser(): void {

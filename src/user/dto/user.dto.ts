@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Document } from 'src/document/entities/document.entity';
 
 export class UserDto {
   @ApiProperty()
@@ -15,4 +16,7 @@ export class UserDto {
 
   @ApiProperty()
   updated_at: string;
+
+  @ApiProperty()
+  documents: Document[];
 }

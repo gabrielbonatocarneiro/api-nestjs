@@ -26,7 +26,7 @@ export class Document {
   })
   user_id: bigint;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, (user) => user.documents)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
