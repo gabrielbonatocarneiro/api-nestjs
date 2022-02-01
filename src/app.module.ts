@@ -12,6 +12,7 @@ import { DocumentModule } from './document/document.module';
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
+      isGlobal: true,
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -20,11 +21,11 @@ import { DocumentModule } from './document/document.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: ['dist/src/**/entities/*.entity.js'],
+      entities: ['**/entities/*.entity.js'],
       synchronize: false,
-      migrations: ['dist/src/database/migrations/*.js'],
+      migrations: ['database/migrations/*.js'],
       cli: {
-        migrationsDir: 'src/database/migrations',
+        migrationsDir: 'database/migrations',
       },
     }),
     UserModule,
