@@ -1,5 +1,3 @@
-import { MomentJS } from 'src/helpers/MomentJS';
-import { User } from 'src/user/entities/user.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -10,6 +8,10 @@ import {
   PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import { Helper } from '../../helper';
+
+import { User } from '../../user/entities/user.entity';
 
 @Entity()
 export class Document {
@@ -73,7 +75,7 @@ export class Document {
 
   @BeforeInsert()
   createDocument(): void {
-    const moment = new MomentJS();
+    const moment = new Helper();
 
     if (!this.created_at) {
       this.created_at = moment.now();
@@ -86,6 +88,6 @@ export class Document {
 
   @BeforeUpdate()
   updateDocument(): void {
-    this.updated_at = new MomentJS().now();
+    this.updated_at = new Helper().now();
   }
 }

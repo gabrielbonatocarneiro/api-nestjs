@@ -1,5 +1,12 @@
-import { UserRemoved } from './dto/user-removed.dto';
+import * as moment from 'moment';
+
 import { UserDto } from './dto/user.dto';
+import { UserRemoved } from './dto/user-removed.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+
+import { UserService } from './user.service';
+
 import {
   Controller,
   Get,
@@ -12,9 +19,7 @@ import {
   Res,
   HttpStatus,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -24,8 +29,8 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/configs/jwt-auth.guard';
-import * as moment from 'moment';
+
+import { JwtAuthGuard } from '../auth/configs/jwt-auth.guard';
 
 @ApiTags('User')
 @Controller('api/user')
@@ -86,6 +91,7 @@ export class UserController {
         updated_at: moment(user.updated_at).format('YYYY-MM-DD HH:mm:ss'),
       });
     } catch (e) {
+      console.log(e);
       return res.status(HttpStatus.BAD_REQUEST).json({
         message: `${e}`,
       });

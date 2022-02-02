@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 import {
   Controller,
   Get,
@@ -12,6 +14,7 @@ import {
   Query,
   Request,
 } from '@nestjs/common';
+
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -22,14 +25,16 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import * as moment from 'moment';
-import { JwtAuthGuard } from 'src/auth/configs/jwt-auth.guard';
+
+import { JwtAuthGuard } from '../auth/configs/jwt-auth.guard';
+
 import { DocumentService } from './document.service';
-import { CreateDocumentDto } from './dto/create-document.dto';
+
 import { DocumentDto } from './dto/document.dto';
-import { PaginateDocumentDto } from './dto/paginate-document.dto';
-import { UpdateDocumentDto } from './dto/update-document.dto';
 import { DocumentRemoved } from './dto/user-removed.dto copy';
+import { CreateDocumentDto } from './dto/create-document.dto';
+import { UpdateDocumentDto } from './dto/update-document.dto';
+import { PaginateDocumentDto } from './dto/paginate-document.dto';
 
 @ApiTags('Document')
 @Controller('api/document')

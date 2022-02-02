@@ -1,13 +1,20 @@
 import { RedisModule } from '@nestjs-modules/ioredis';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { CorsMiddleware } from '@nest-middlewares/cors';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
+
+import { Helper } from './helper';
 import { AuthModule } from './auth/auth.module';
 import { Middleware } from './middleware';
 import { UserModule } from './user/user.module';
-import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { CorsMiddleware } from '@nest-middlewares/cors';
 import { DocumentModule } from './document/document.module';
+import { AuthController } from './auth/auth.controller';
+import { UserController } from './user/user.controller';
+import { DocumentController } from './document/document.controller';
+import { AuthService } from './auth/auth.service';
+import { UserService } from './user/user.service';
+import { DocumentService } from './document/document.service';
 
 @Module({
   imports: [
@@ -38,6 +45,8 @@ import { DocumentModule } from './document/document.module';
     AuthModule,
     DocumentModule,
   ],
+  providers: [Helper, AuthService, UserService, DocumentService],
+  controllers: [AuthController, UserController, DocumentController],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

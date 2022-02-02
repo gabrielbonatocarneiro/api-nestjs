@@ -1,12 +1,15 @@
-import { MomentJS } from 'src/helpers/MomentJS';
+import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateDocumentDto } from './dto/create-document.dto';
-import { DocumentDto } from './dto/document.dto';
-import { PaginateDocumentDto } from './dto/paginate-document.dto';
-import { UpdateDocumentDto } from './dto/update-document.dto';
+
+import { Helper } from './../helper';
+
 import { Document } from './entities/document.entity';
+
+import { DocumentDto } from './dto/document.dto';
+import { CreateDocumentDto } from './dto/create-document.dto';
+import { UpdateDocumentDto } from './dto/update-document.dto';
+import { PaginateDocumentDto } from './dto/paginate-document.dto';
 
 @Injectable()
 export class DocumentService {
@@ -75,7 +78,7 @@ export class DocumentService {
       complement: updateDocumentDto.complement
         ? updateDocumentDto.complement
         : null,
-      updated_at: new MomentJS().now(),
+      updated_at: new Helper().now(),
     });
   }
 

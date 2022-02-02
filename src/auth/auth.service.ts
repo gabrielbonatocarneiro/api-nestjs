@@ -1,10 +1,13 @@
-import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
-import { UserDto } from '../user/dto/user.dto';
-import { UserService } from '../user/user.service';
-import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
 import * as moment from 'moment';
+
+import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
+
+import { UserService } from '../user/user.service';
+
+import { UserDto } from '../user/dto/user.dto';
 
 @Injectable()
 export class AuthService {

@@ -1,5 +1,3 @@
-import { UserNotAuthorized } from './dto/user-not-authorized';
-import { UserLogged } from './dto/user-logged.dto';
 import {
   Controller,
   Post,
@@ -8,14 +6,20 @@ import {
   HttpStatus,
   UseGuards,
 } from '@nestjs/common';
+
 import {
   ApiBody,
   ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+
 import { LoginDto } from './dto/login.dto';
+import { UserLogged } from './dto/user-logged.dto';
+import { UserNotAuthorized } from './dto/user-not-authorized';
+
 import { AuthService } from './auth.service';
+
 import { LocalAuthGuard } from './configs/local-auth.guard';
 
 @ApiTags('Auth')

@@ -1,13 +1,15 @@
-import { MomentJS } from 'src/helpers/MomentJS';
-import { Bcrypt } from './../helpers/Bcrypt';
+import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
+
+import { User } from './entities/user.entity';
+
+import { Helper } from './../helper';
+
+import { UserDto } from './dto/user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserDto } from './dto/user.dto';
-import { User } from './entities/user.entity';
-import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
 
 @Injectable()
 export class UserService {
@@ -39,7 +41,7 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<UserDto> {
-    const hashPassword = await new Bcrypt().generateHash(
+    const hashPassword = await new Helper().generateHash(
       createUserDto.password,
     );
 
@@ -64,7 +66,7 @@ export class UserService {
     if (
       password &&
       new_password &&
-      !(await new Bcrypt().valueIsEqualHash(password, user.password))
+      !(await new Helper().valueIsEqualHash(password, user.password))
     ) {
       throw new Error('Invalid password');
     }
@@ -72,7 +74,7 @@ export class UserService {
     let hashedPassword = user.password;
 
     if (new_password) {
-      hashedPassword = await new Bcrypt().generateHash(new_password);
+      hashedPassword = await new Helper().generateHash(new_password);
     }
 
     const userUpdated = await this.userRepository.save({
@@ -80,7 +82,7 @@ export class UserService {
       name: name || updateUserDto.name,
       email: email || updateUserDto.email,
       password: hashedPassword,
-      updated_at: new MomentJS().now(),
+      updated_at: new Helper().now(),
     });
 
     delete userUpdated.password;
